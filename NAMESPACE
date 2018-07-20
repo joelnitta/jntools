@@ -2,5 +2,9 @@
 
 export(add_slash)
 export(all_duplicated)
+export(blankplot)
+export(gg_color_hue)
 export(paste3)
+export(powerpoint_theme)
 export(resolve_duplicates)
+export(standard_theme)
