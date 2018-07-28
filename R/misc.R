@@ -14,6 +14,9 @@
 #' @author Joel H Nitta, \email{joelnitta@@gmail.com}
 #' @export
 add_slash <- function (path) {
+
+  if (!(is.character(path))) {stop ("path must be a character vector")}
+
   last_char <- substr(path, nchar(path), nchar(path))
   if (last_char != "/") {
     path <- paste0(path, "/")
