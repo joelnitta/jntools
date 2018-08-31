@@ -78,7 +78,7 @@ resolve_col <- function (col, collapse_chr = ", ") {
 #' @param collapse_chr Character to use to separate values when pasting together elements
 #' of items in the list that contain > 1 element.
 #' @return Dataframe
-resolve_df <- function (df, collapse_chr) {purrr::map_df (df, jntools:::resolve_col, collapse_chr = collapse_chr)}
+resolve_df <- function (df, collapse_chr) {purrr::map_df (df, resolve_col, collapse_chr = collapse_chr)}
 
 #' resolve_duplicates
 #'
@@ -115,16 +115,16 @@ resolve_duplicates <- function (data, search_col, collapse_chr = ", ") {
   search_data <- data[colnames(data) %in% search_col]
 
   # If no dups, nothing to do
-  if (sum(jntools:::all_duplicated(search_data)) == 0) {
+  if (sum(all_duplicated(search_data)) == 0) {
     print ("No duplicate values; returning original dataframe")
     data
   }
 
   # Find all duplicates of interest
-  dups <- data[jntools:::all_duplicated(search_data), ]
+  dups <- data[all_duplicated(search_data), ]
 
   # Remove these from data
-  data <- data[!(jntools:::all_duplicated(search_data)), ]
+  data <- data[!(all_duplicated(search_data)), ]
 
   # Resolve duplicates
   # split duplicates into list based on search column
@@ -134,7 +134,7 @@ resolve_duplicates <- function (data, search_col, collapse_chr = ", ") {
     dups <- split(dups, f = dups[[search_col]])
   }
   # and resolve
-  resolved <- purrr::map_df(dups, jntools:::resolve_df, collapse_chr)
+  resolved <- purrr::map_df(dups, resolve_df, collapse_chr)
 
   # Merge now-resolved dups back in
   data <- dplyr::bind_rows(data, resolved)
