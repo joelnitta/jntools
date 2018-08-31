@@ -6,6 +6,11 @@
 \usage{
 paste3(..., sep = " ")
 }
+\arguments{
+\item{...}{Strings to paste}
+
+\item{sep}{Character used to separate pasted strings}
+}
 \description{
 Paste while removing NAs
 }

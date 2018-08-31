@@ -16,7 +16,7 @@ Clean up ggplot legends
 Removes the legend title and default boxes around ggplot legend entries.
 }
 \examples{
-library(ggplot)
+library(ggplot2)
 p1 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
   geom_point(aes(color = Species))
 p1

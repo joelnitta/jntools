@@ -2,7 +2,6 @@
 
 export(add_slash)
 export(all_duplicated)
-export(blankplot)
 export(flatten_DNA_list)
 export(gg_color_hue)
 export(paste3)

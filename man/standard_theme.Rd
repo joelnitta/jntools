@@ -6,6 +6,9 @@
 \usage{
 standard_theme(font_size = 12)
 }
+\arguments{
+\item{font_size}{Font size to use throughout}
+}
 \value{
 A ggplot object
 }
@@ -16,7 +19,7 @@ A simple ggplot theme
 A simple ggplot theme with uniform font sizes and no extra gridlines.
 }
 \examples{
-library(ggplot)
+library(ggplot2)
 p1 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
   geom_point(aes(color = Species))
 p1

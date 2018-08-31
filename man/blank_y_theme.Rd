@@ -13,7 +13,7 @@ A ggplot object
 Remove y-axis text and ticks
 }
 \examples{
-library(ggplot)
+library(ggplot2)
 p1 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
   geom_point(aes(color = Species))
 p1
