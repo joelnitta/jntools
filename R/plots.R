@@ -44,34 +44,6 @@ powerpoint_theme <- function () {
   )
 }
 
-#' blankplot
-#'
-#' Make blank filler plot
-#'
-#' Used for filling in multiplot grids when one of the grid squares should be blank.
-#'
-#' @return A ggplot object that is completely blank
-#' @author Joel H Nitta, \email{joelnitta@@gmail.com}
-#'
-#' @examples
-#'  library(ggplot2)
-#'  library(cowplot)
-#'  p1 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
-#'    geom_point(aes(color = Species))
-#'  p2 <- ggplot(iris, aes(Sepal.Length)) +
-#'    geom_bar(stat="count")
-#'  p3 <- ggplot(iris, aes(Sepal.Width, Petal.Width)) +
-#'    geom_point(aes(color = Species))
-#'  p4 <- blankplot()
-#'  plot_grid(p1, p2, p3, p4, nrow = 2, ncol = 2)
-#'
-#' @export
-blankplot <- function () {
-  ggplot2::ggplot() +
-  ggplot2::geom_blank(ggplot2::aes(1,1)) +
-  cowplot::theme_nothing()
-}
-
 #' clean_legend_theme
 #'
 #' Clean up ggplot legends
