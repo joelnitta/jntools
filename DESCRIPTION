@@ -8,9 +8,12 @@ Description: Various and sundry tools created and used for R coding by Joel Nitt
 License: MIT
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Imports:
     purrr,
     dplyr,
     ggplot2,
-    cowplot
+    cowplot,
+    ape,
+    assertthat
+Suggests: testthat
