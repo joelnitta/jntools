@@ -19,7 +19,6 @@ p1 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
 p1
 p1 + blank_x_theme()
 
- @export
 }
 \author{
 Joel H Nitta, \email{joelnitta@gmail.com}
