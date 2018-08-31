@@ -60,7 +60,7 @@ powerpoint_theme <- function () {
 #' p1
 #' p1 + clean_legend_theme()
 #'
-#'  @export
+#' @export
 clean_legend_theme <- function () {
   ggplot2::theme (
     legend.title = ggplot2::element_blank(),
@@ -116,7 +116,7 @@ standard_theme <- function (font_size = 12) {
 #' p1
 #' p1 + blank_x_theme()
 #'
-#'  @export
+#' @export
 blank_x_theme <- function() {
   ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                  axis.title.x = ggplot2::element_blank(),
@@ -137,7 +137,7 @@ blank_x_theme <- function() {
 #' p1
 #' p1 + blank_y_theme()
 #'
-#'  @export
+#' @export
 blank_y_theme <- function () {
   ggplot2::theme(axis.text.y = ggplot2::element_blank(),
                  axis.title.y = ggplot2::element_blank(),
