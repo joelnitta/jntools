@@ -54,7 +54,7 @@ powerpoint_theme <- function () {
 #' @author Joel H Nitta, \email{joelnitta@@gmail.com}
 #'
 #' @examples
-#'  library(ggplot)
+#'  library(ggplot2)
 #'  library(cowplot)
 #'  p1 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
 #'    geom_point(aes(color = Species))
@@ -82,7 +82,7 @@ blankplot <- function () {
 #' @author Joel H Nitta, \email{joelnitta@@gmail.com}
 #'
 #' @examples
-#' library(ggplot)
+#' library(ggplot2)
 #' p1 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
 #'   geom_point(aes(color = Species))
 #' p1
@@ -106,7 +106,7 @@ clean_legend_theme <- function () {
 #' @author Joel H Nitta, \email{joelnitta@@gmail.com}
 #'
 #' @examples
-#' library(ggplot)
+#' library(ggplot2)
 #' p1 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
 #'   geom_point(aes(color = Species))
 #' p1
@@ -137,7 +137,7 @@ standard_theme <- function (font_size = 12) {
 #' @author Joel H Nitta, \email{joelnitta@@gmail.com}
 #'
 #' @examples
-#' library(ggplot)
+#' library(ggplot2)
 #' p1 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
 #'   geom_point(aes(color = Species))
 #' p1
@@ -158,7 +158,7 @@ blank_x_theme <- function() {
 #' @author Joel H Nitta, \email{joelnitta@@gmail.com}
 #'
 #' @examples
-#' library(ggplot)
+#' library(ggplot2)
 #' p1 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
 #'   geom_point(aes(color = Species))
 #' p1
