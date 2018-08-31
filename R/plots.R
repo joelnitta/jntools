@@ -15,7 +15,7 @@
 #' @export
 gg_color_hue <- function(n) {
   hues = seq(15, 375, length=n+1)
-  hcl(h=hues, l=65, c=100)[1:n]
+  grDevices::hcl(h=hues, l=65, c=100)[1:n]
 }
 
 
@@ -74,6 +74,7 @@ clean_legend_theme <- function () {
 #'
 #' A simple ggplot theme with uniform font sizes and no extra gridlines.
 #'
+#' @param font_size Font size to use throughout
 #' @return A ggplot object
 #' @author Joel H Nitta, \email{joelnitta@@gmail.com}
 #'

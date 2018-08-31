@@ -155,7 +155,8 @@ resolve_duplicates <- function (data, search_col, collapse_chr = ", ") {
 #'
 #' Shamelessly copied from
 #' \url{https://stackoverflow.com/questions/13673894/suppress-nas-in-paste}
-#'
+#' @param ... Strings to paste
+#' @param sep Character used to separate pasted strings
 #' @examples
 #' paste3(c("a", "b", "c", NA), c("A","B", NA, NA))
 #' @export

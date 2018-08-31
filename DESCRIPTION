@@ -15,5 +15,6 @@ Imports:
     ggplot2,
     cowplot,
     ape,
-    assertthat
+    assertthat,
+    grDevices
 Suggests: testthat
