@@ -30,7 +30,8 @@
 #'
 #' files <- list.files(tempdir(), pattern = "fasta", full.names = TRUE)
 #'
-#' nested_seqs <- lapply(files, ape::read.FASTA)
+#' # In ape > 5.2, read.FASTA can be used instead
+#' nested_seqs <- lapply(files, ape::read.dna, format = "fasta", as.matrix = FALSE)
 #'
 #' flat_seqs <- flatten_DNA_list(nested_seqs)
 
@@ -40,6 +41,9 @@ flatten_DNA_list <- function (dna_list) {
   assertthat::assert_that(
     all(lapply(dna_list, class) == "DNAbin"),
     msg = "All elements of dna_list must be of class DNAbin")
+  assertthat::assert_that(
+    all(sapply(dna_list, is.list)),
+    msg = "All elements of dna_list must be lists")
   dna_list <- lapply(dna_list, as.character)
   dna_list <- unlist(dna_list, recursive = FALSE)
   ape::as.DNAbin(dna_list)
