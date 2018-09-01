@@ -13,6 +13,7 @@ ggplot object with larger font sizes
 Increase font size of titles for powerpoint
 }
 \examples{
+library(ggplot2)
 p1 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
  geom_point(aes(color = Species))
 p1 + powerpoint_theme()

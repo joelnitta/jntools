@@ -27,6 +27,7 @@ gg_color_hue <- function(n) {
 #' @author Joel H Nitta, \email{joelnitta@@gmail.com}
 #'
 #' @examples
+#' library(ggplot2)
 #' p1 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
 #'  geom_point(aes(color = Species))
 #' p1 + powerpoint_theme()
