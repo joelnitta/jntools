@@ -3,6 +3,8 @@
 jntools
 =======
 
+[![Travis-CI Build Status](https://travis-ci.org/joelnitta/jntools.svg?branch=master)](https://travis-ci.org/joelnitta/jntools)
+
 Various and sundry tools for data analysis in R.
 
 Installation
