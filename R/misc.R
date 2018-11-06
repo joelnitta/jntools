@@ -69,7 +69,7 @@ download_all_files_in_folder <- function (dribble_data, folder, pattern = NULL,
 
   # Download non-folders and anything passing filter
   purrr::walk2(
-    purrr::map(dribble_data$id, as_id),
+    purrr::map(dribble_data$id, googledrive::as_id),
     fs::path(folder, dribble_data$name),
     googledrive::drive_download,
     overwrite = overwrite
