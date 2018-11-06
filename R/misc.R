@@ -27,6 +27,7 @@
 #' folder_contents <- drive_ls("temp")
 #' download_all_files_in_folder(folder_contents, tempdir(), overwrite = TRUE)
 #' }
+#' @export
 download_all_files_in_folder <- function (dribble_data, folder, pattern = NULL,
                                          negate = FALSE, overwrite = FALSE) {
 
