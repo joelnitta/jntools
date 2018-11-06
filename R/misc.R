@@ -1,5 +1,84 @@
 # I/O ---------------------------------------------------------------------
 
+#' Download all the files in a google drive folder.
+#'
+#' \code{dribble_data} should be obtained using \code{\link[googledrive]{drive_ls}}.
+#'
+#' @param dribble_data Data frame of class \code{dribble}.
+#' @param folder Path to local folder to download data.
+#' @param pattern Optional grep pattern; only file names matching this pattern
+#' will be included.
+#' @param negate Logical; should only file names that don't match the pattern
+#' be included instead?
+#' @param overwrite Logical; should existing files be overwritten?
+#'
+#' @return Data frame of class dribble including the files that were downloaded
+#'
+#' @examples
+#' \dontrun{
+#' library(tidyverse)
+#' library(googledrive)
+#' # Make a temporary drive folder
+#' folder <- drive_mkdir("temp")
+#' # Upload example data
+#' files <- map(c(drive_example("chicken.csv"), drive_example("chicken.txt")),
+#'             drive_upload, path = folder)
+#' # Download all files in the folder
+#' folder_contents <- drive_ls("temp")
+#' download_all_files_in_folder(folder_contents, tempdir(), overwrite = TRUE)
+#' }
+download_all_files_in_folder <- function (dribble_data, folder, pattern = NULL,
+                                         negate = FALSE, overwrite = FALSE) {
+
+  # Error-checking
+  assertthat::assert_that(assertthat::is.dir(folder))
+  assertthat::assert_that(is.logical(negate))
+  assertthat::assert_that(any(grepl("dribble", class(dribble_data))),
+                          msg = "dribble must of class dribble")
+
+  # Filter out folders
+  dribble_data <- dplyr::mutate(
+    dribble_data,
+    mimeType = purrr::map_chr(drive_resource, "mimeType")
+  )
+
+  dribble_data <- dplyr::filter(
+    dribble_data,
+    mimeType != "application/vnd.google-apps.folder"
+  )
+
+  # Filter files to download based on pattern
+  if(!is.null(pattern)) assertthat::assert_that(assertthat::is.string(pattern))
+
+  if (!is.null(pattern) & !isTRUE(negate)) {
+    dribble_data <- dplyr::filter(
+      dribble_data,
+      grepl(pattern, dribble_data$name)
+    )
+  }
+
+  if (!is.null(pattern) & isTRUE(negate)) {
+    dribble_data <- dplyr::filter(
+      dribble_data,
+      !grepl(pattern, dribble_data$name)
+    )
+  }
+
+  assertthat::assert_that(nrow(dribble_data) > 0,
+                          msg = "No data to download under these arguments")
+
+  # Download non-folders and anything passing filter
+  purrr::walk2(
+    purrr::map(dribble_data$id, as_id),
+    fs::path(folder, dribble_data$name),
+    googledrive::drive_download,
+    overwrite = overwrite
+  )
+
+  # Return the filtered data that was downloaded
+  dribble_data
+}
+
 #' add_slash
 #'
 #' Add a trailing slash to a path.
