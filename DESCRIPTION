@@ -16,5 +16,7 @@ Imports:
     cowplot,
     ape,
     assertthat,
-    grDevices
+    grDevices,
+    fs,
+    googledrive
 Suggests: testthat
