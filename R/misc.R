@@ -11,6 +11,7 @@
 #' @param negate Logical; should only file names that don't match the pattern
 #' be included instead?
 #' @param overwrite Logical; should existing files be overwritten?
+#' @param ... Other arguments; not used by this function, but meant for workflow tracking with drake.
 #'
 #' @return Data frame of class dribble including the files that were downloaded
 #'
@@ -29,7 +30,7 @@
 #' }
 #' @export
 download_all_files_in_folder <- function (dribble_data, folder, pattern = NULL,
-                                         negate = FALSE, overwrite = FALSE) {
+                                         negate = FALSE, overwrite = FALSE, ...) {
 
   # Error-checking
   assertthat::assert_that(assertthat::is.dir(folder))
