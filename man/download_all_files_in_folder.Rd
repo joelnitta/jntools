@@ -5,7 +5,7 @@
 \title{Download all the files in a google drive folder.}
 \usage{
 download_all_files_in_folder(dribble_data, folder, pattern = NULL,
-  negate = FALSE, overwrite = FALSE)
+  negate = FALSE, overwrite = FALSE, ...)
 }
 \arguments{
 \item{dribble_data}{Data frame of class \code{dribble}.}
@@ -19,6 +19,8 @@ will be included.}
 be included instead?}
 
 \item{overwrite}{Logical; should existing files be overwritten?}
+
+\item{...}{Other arguments; not used by this function, but meant for workflow tracking with drake.}
 }
 \value{
 Data frame of class dribble including the files that were downloaded
