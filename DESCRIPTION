@@ -18,5 +18,8 @@ Imports:
     assertthat,
     grDevices,
     fs,
-    googledrive
+    googledrive,
+    glue,
+    stringr,
+    readr
 Suggests: testthat

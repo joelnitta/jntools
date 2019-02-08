@@ -1,5 +1,99 @@
 # I/O ---------------------------------------------------------------------
 
+#' Clean up a latex bibliography file
+#'
+#' In particular one exported from Mendeley
+#'
+#' @param raw_bib_file Path to raw .bib file; this function is designed in particular
+#' to clean .bib files produced by Mendeley.
+#' @param max_line_length Integer. Lines greater than this length will be removed from the
+#' bibliography.
+#' @param strip_fields Fields to remove from the bibliography. Note that "number"
+#' is issue number.
+#' @param strip_mendeley_header Logical; should the header added by Mendeley be removed?
+#'
+#' @return Character vector.
+#' @examples
+#' \dontrun{
+#' # Clean bibliography.
+#' clean_bib <- clean_bib("mendeley_refs.bib")
+#' # Write out cleaned bibliography.
+#' write_lines(clean_bib, "references.bib")
+#' }
+#' @export
+clean_bib <- function (raw_bib_file,
+                       max_line_length = 1000,
+                       strip_fields = c("abstract",
+                                        "file",
+                                        "keywords",
+                                        "url",
+                                        "doi",
+                                        "issn",
+                                        "isbn",
+                                        "month",
+                                        "number"),
+                       strip_mendeley_header = TRUE) {
+
+  # Check input
+  assertthat::assert_that(assertthat::is.readable(raw_bib_file))
+  if(!is.null(max_line_length)) assertthat::assert_that(is.numeric(max_line_length))
+  if(!is.null(strip_fields)) assertthat::assert_that(is.character(strip_fields))
+  assertthat::assert_that(is.logical(strip_mendeley_header))
+
+  # Read raw bib file
+  bib <- readr::read_lines(raw_bib_file)
+
+  # Strip mendeley header.
+  mendeley_header <-
+    stringr::str_detect(
+      bib, "^Automatically generated|^Any changes to|^BibTeX export options")
+
+  if(isTRUE(strip_mendeley_header)) bib <- bib[!mendeley_header]
+
+  # Strip un-needed fields which can get too long to read in properly.
+  strip_fields_pattern <- glue::glue("^{strip_fields}")
+  strip_fields_pattern <- paste(strip_fields_pattern, collapse = "|")
+  remove <- stringr::str_detect(bib, strip_fields_pattern)
+
+  if(!is.null(strip_fields)) bib <- bib[!remove]
+
+  # After removing these lines, we may have some dangling lines that were
+  # actually part of a bib field (e.g., an abstract with multiple paragraphs).
+  #
+  # Only keep lines that are proper bibtex fields:
+  # - beginning of an entry starting with `@`
+  # - data field in an entry including `=`
+  # - end of entry, marked by a single curly brace
+  keep <- stringr::str_detect(bib, "^@| = |^\\}$")
+
+  bib <- bib[keep]
+
+  # Delete lines exceeding the maximum length, and print a
+  # warning about those that got cut.
+  too_long <- nchar(bib) > max_line_length
+
+  if (!is.null(max_line_length)) bib <- bib[!too_long]
+
+  if (sum(too_long) > 1)
+    print(
+      glue::glue("Deleted {sum(too_long)} lines > {max_length} chars.")
+    )
+
+  # Fix italics
+  bib <- stringr::str_replace_all(bib, stringr::fixed("{\\textless}i{\\textgreater}"), stringr::fixed("\\textit{") )
+  bib <- stringr::str_replace_all(bib, stringr::fixed("{\\textless}/i{\\textgreater}"), stringr::fixed("}") )
+
+  # Make sure the last line preceding a closing bracket ends
+  # with a bracket and not a comma.
+  last_entry_lines <- which(stringr::str_detect(bib, "^\\}$"))
+  last_entry_lines <- last_entry_lines - 1
+
+  bib[last_entry_lines] <-
+    stringr::str_replace(bib[last_entry_lines], "\\},$", "\\}")
+
+  bib
+}
+
 #' Download all the files in a google drive folder.
 #'
 #' \code{dribble_data} should be obtained using \code{\link[googledrive]{drive_ls}}.
