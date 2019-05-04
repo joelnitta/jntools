@@ -13,7 +13,6 @@ Imports:
     purrr,
     dplyr,
     ggplot2,
-    cowplot,
     ape,
     assertthat,
     grDevices,
