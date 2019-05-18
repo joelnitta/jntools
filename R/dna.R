@@ -30,8 +30,7 @@
 #'
 #' files <- list.files(tempdir(), pattern = "fasta", full.names = TRUE)
 #'
-#' # In ape > 5.2, read.FASTA can be used instead
-#' nested_seqs <- lapply(files, ape::read.dna, format = "fasta", as.matrix = FALSE)
+#' nested_seqs <- lapply(files, ape::read.FASTA)
 #'
 #' flat_seqs <- flatten_DNA_list(nested_seqs)
 
