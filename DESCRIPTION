@@ -20,5 +20,6 @@ Imports:
     googledrive,
     glue,
     stringr,
-    readr
+    readr,
+    processx
 Suggests: testthat
