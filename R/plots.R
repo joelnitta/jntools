@@ -144,3 +144,45 @@ blank_y_theme <- function () {
                  axis.title.y = ggplot2::element_blank(),
                  axis.ticks.y = ggplot2::element_blank())
 }
+
+#' Get tips of a phylogenetic tree in their plotted order
+#'
+#' After re-rooting a tree, the order of tips when the tree
+#' is plotted no longer match the order of $tip.label. Use
+#' this function to get tips in the order they are plotted.
+#'
+#' Note that this is not compatible with ggtree! The same tree
+#' plotted with ggtree and ape may have slightly different
+#' tip order.
+#'
+#' To get tip order of a ggtree plot, do something like this:
+#' data(bird.orders)
+#' p <- ggtree::ggtree(bird.orders)
+#' p[["data"]] # extract 'label' and 'y' columns
+#'
+#' @param tree Phylognetic tree (list of class "phylo")
+#'
+#' @return Vector
+#'
+#' @examples
+#' library(ape)
+#' data(bird.orders)
+#' plot(bird.orders, no.margin = TRUE)
+#' bird.orders$tip.label # matches plot
+#' bird.orders_reroot <- root(bird.orders, 5)
+#' plot(bird.orders_reroot)
+#' # Tip order still the same even though the tree
+#' # has been re-rooted!
+#' all.equal(bird.orders_reroot$tip.label, bird.orders$tip.label)
+#' get_tips_in_ape_plot_order(bird.orders_reroot) # matches order in plot
+#' @references https://stackoverflow.com/questions/34364660/how-to-get-correct-order-of-tip-labels-in-ape-after-calling-ladderize-function
+#' @export
+get_tips_in_ape_plot_order <- function (tree) {
+  assertthat::assert_that(inherits(tree, "phylo"))
+  # First filter out internal nodes
+  # from the the second column of the edge matrix
+  is_tip <- tree$edge[,2] <= length(tree$tip.label)
+  ordered_tips <- tree$edge[is_tip, 2]
+  # Use this vector to extract the tips in the right order
+  tree$tip.label[ordered_tips]
+}
