@@ -1,5 +1,24 @@
 # Plotting ----------------------------------------------------------------
 
+#' Preview color palette
+#'
+#' @param colors A vector of colors
+#'
+#' @return Plot of the colors with their names if provided
+#' @export
+#'
+#' @examples
+#' preview_pal(c("red", "green"))
+preview_pal <- function(colors) {
+
+  labels <- if(is.null(names(colors))) {colors} else {names(colors)}
+
+  pie(
+    rep(1, length(colors)),
+    labels = labels,
+    col = colors)
+}
+
 #' gg_color_hue
 #'
 #' Produce ggplot-like colors
