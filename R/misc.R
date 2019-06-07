@@ -126,6 +126,11 @@ clean_bib <- function (raw_bib_file,
 download_all_files_in_folder <- function (dribble_data, folder, pattern = NULL,
                                          negate = FALSE, overwrite = FALSE, ...) {
 
+  if (!requireNamespace("googledrive", quietly = TRUE)) {
+    stop("Package \"googledrive\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+
   # Error-checking
   assertthat::assert_that(assertthat::is.dir(folder))
   assertthat::assert_that(is.logical(negate))

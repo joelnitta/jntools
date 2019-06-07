@@ -17,9 +17,11 @@ Imports:
     assertthat,
     grDevices,
     fs,
-    googledrive,
     glue,
     stringr,
     readr,
-    processx
-Suggests: testthat
+    processx,
+    graphics
+Suggests: 
+    testthat,
+    googledrive
