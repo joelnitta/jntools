@@ -13,7 +13,7 @@ preview_pal <- function(colors) {
 
   labels <- if(is.null(names(colors))) {colors} else {names(colors)}
 
-  pie(
+  graphics::pie(
     rep(1, length(colors)),
     labels = labels,
     col = colors)
