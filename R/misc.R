@@ -76,7 +76,7 @@ clean_bib <- function (raw_bib_file,
 
   if (sum(too_long) > 1)
     print(
-      glue::glue("Deleted {sum(too_long)} lines > {max_length} chars.")
+      glue::glue("Deleted {sum(too_long)} lines > {max_line_length} chars.")
     )
 
   # Fix italics
