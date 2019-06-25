@@ -83,6 +83,47 @@ clean_bib <- function (raw_bib_file,
   bib <- stringr::str_replace_all(bib, stringr::fixed("{\\textless}i{\\textgreater}"), stringr::fixed("\\textit{") )
   bib <- stringr::str_replace_all(bib, stringr::fixed("{\\textless}/i{\\textgreater}"), stringr::fixed("}") )
 
+  ### Remove any entries that don't have a key
+  # These look like "@article{," where there should be a key betwen the
+  # opening curly brace and the comma, e.g., "@article{Hormaza1996,"
+  # We need to remove the whole entry though, not just the key.
+  missing_key <- stringr::str_detect(bib, "^@.*\\{,") %>% which
+
+  if (length(missing_key) > 1) {
+    # Make a vector of all closing brackets
+    closing_brackets <- stringr::str_detect(bib, "^\\}$") %>% which
+
+    # Simple function to find the closing bracket for a given opening bracket
+    find_closing_bracket <- function(opening_bracket, closing_brackets) {
+      diff <- closing_brackets - opening_bracket
+      names(diff) <- closing_brackets
+      closest_diff <- min(diff[diff > 0])
+      as.numeric(names(diff[diff == closest_diff]))
+    }
+
+    # Find all the closing brackets for the missing keys
+    closing_brackets_for_missing_keys <- sapply(
+      missing_key,
+      find_closing_bracket,
+      closing_brackets = closing_brackets )
+
+    # Convert this to a vector of lines including all the lines for entries
+    # missing a key
+    entries_without_key <- NULL
+    for(i in 1:length(missing_key)) {
+      entries_without_key[[i]] <-
+        missing_key[[i]]:closing_brackets_for_missing_keys[[i]]
+    }
+    entries_without_key <- unlist(entries_without_key)
+
+    # Remove the offending lines
+    bib <- bib[-entries_without_key]
+
+    message(
+      glue::glue("Deleted {length(missing_key)} entries missing bibliography keys.")
+    )
+  }
+
   # Make sure the last line preceding a closing bracket ends
   # with a bracket and not a comma.
   last_entry_lines <- which(stringr::str_detect(bib, "^\\}$"))
@@ -124,7 +165,7 @@ clean_bib <- function (raw_bib_file,
 #' }
 #' @export
 download_all_files_in_folder <- function (dribble_data, folder, pattern = NULL,
-                                         negate = FALSE, overwrite = FALSE, ...) {
+                                          negate = FALSE, overwrite = FALSE, ...) {
 
   if (!requireNamespace("googledrive", quietly = TRUE)) {
     stop("Package \"googledrive\" needed for this function to work. Please install it.",
