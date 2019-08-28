@@ -186,10 +186,14 @@ make_ref_list <- function(rmd_file, raw_bib, final_bib) {
     bib_df_selected %>%
     dplyr::mutate(TITLE = purrr::map(TITLE, ~stringr::str_replace_all(., "^textless\\}i", "\\{\\\\textless\\}i")))
 
-  # Wrap title in double {{ }} to preserve capitalization
+  # Wrap titles in double {{ }} to preserve capitalization
   bib_df_selected <-
     bib_df_selected %>%
     dplyr::mutate(TITLE = paste0("{", TITLE, "}"))
+
+  bib_df_selected <-
+    bib_df_selected %>%
+    dplyr::mutate(BOOKTITLE = paste0("{", BOOKTITLE, "}"))
 
   # Write this out to temporary file so it can be cleaned
   # with jntools::clean_bib(), since that works by
