@@ -21,7 +21,8 @@ Imports:
     stringr,
     readr,
     processx,
-    graphics
+    graphics,
+    magrittr
 Suggests: 
     testthat,
     googledrive
