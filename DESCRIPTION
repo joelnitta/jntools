@@ -22,7 +22,8 @@ Imports:
     readr,
     processx,
     graphics,
-    magrittr
+    magrittr,
+    bib2df
 Suggests: 
     testthat,
     googledrive

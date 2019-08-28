@@ -135,6 +135,74 @@ clean_bib <- function (raw_bib_file,
   bib
 }
 
+#' Produce a filtered, cleaned .bib file for an Rmd document
+#'
+#' Takes a raw .bib file (e.g., one exported from
+#' Mendeley with thousands of entries), filters it
+#' to only the citations in the Rmd file, and cleans
+#' the references so pandoc won't crash.
+#'
+#' Note that individual entries in the cleaned bib file may still
+#' need additional editing.
+#'
+#' @param rmd_file Path to Rmd file
+#' @param raw_bib Path to raw bib file
+#' @param final_bib Path to write cleaned, filtered bib file
+#'
+#' @return Nothing
+#'
+make_ref_list <- function(rmd_file, raw_bib, final_bib) {
+
+  # Process manuscript Rmd and pull out citations
+  # (words that begin with '@')
+  citations <-
+    readr::read_lines(rmd_file) %>%
+    stringr::str_split(" |;") %>%
+    unlist %>%
+    magrittr::extract(., stringr::str_detect(., "@")) %>%
+    stringr::str_remove_all("\\[|\\]|\\)|\\(|\\.$|,") %>%
+    unique %>%
+    sort %>%
+    stringr::str_remove_all("@")
+
+  # Read in entire raw bibliography exported from Mendeley as tibble
+  bib_df <- bib2df::bib2df(raw_bib)
+
+  # Select only needed columns and subset to citations in Rmd
+  bib_df_selected <-
+    bib_df %>%
+    dplyr::select(CATEGORY, BIBTEXKEY, AUTHOR,
+           BOOKTITLE, CHAPTER, EDITOR, EDITION,
+           JOURNAL, PAGES, PUBLISHER, TITLE, VOLUME, YEAR) %>%
+    dplyr::filter(BIBTEXKEY %in% citations)
+
+  # Fix formatting of "Jr."
+  bib_df_selected <-
+    bib_df_selected %>%
+    dplyr::mutate(AUTHOR = purrr::map(AUTHOR, ~stringr::str_replace_all(., "^Watkins Jr.\\}", "\\{Watkins Jr.\\}")))
+
+  # Fix missing bracket for italics at start of title
+  bib_df_selected <-
+    bib_df_selected %>%
+    dplyr::mutate(TITLE = purrr::map(TITLE, ~stringr::str_replace_all(., "^textless\\}i", "\\{\\\\textless\\}i")))
+
+  # Wrap title in double {{ }} to preserve capitalization
+  bib_df_selected <-
+    bib_df_selected %>%
+    dplyr::mutate(TITLE = paste0("{", TITLE, "}"))
+
+  # Write this out to temporary file so it can be cleaned
+  # with jntools::clean_bib(), since that works by
+  # reading in an external bib flie.
+  temp_file <- tempfile()
+  bib2df::df2bib(bib_df_selected, file = temp_file)
+
+  # Do final cleaning with jntools::clean_bib
+  jntools::clean_bib(temp_file) %>%
+    readr::write_lines(final_bib)
+
+}
+
 #' Download all the files in a google drive folder.
 #'
 #' \code{dribble_data} should be obtained using \code{\link[googledrive]{drive_ls}}.
