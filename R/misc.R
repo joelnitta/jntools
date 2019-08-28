@@ -150,7 +150,7 @@ clean_bib <- function (raw_bib_file,
 #' @param final_bib Path to write cleaned, filtered bib file
 #'
 #' @return Nothing
-#'
+#' @export
 make_ref_list <- function(rmd_file, raw_bib, final_bib) {
 
   # Process manuscript Rmd and pull out citations
