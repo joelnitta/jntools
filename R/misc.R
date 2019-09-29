@@ -337,3 +337,19 @@ paste3 <- function(..., sep=" ") {
   is.na(ret) <- ret==""
   ret
 }
+
+#' Round a number and include trailing zeros
+#'
+#' @param x Numeric vector
+#' @param digits Number of digits for rounding.
+#'
+#' @return Character vector
+#'
+#' @examples
+#' round_t(c(2.12, 2.3), 4)
+#' @export
+round_t <- function (x, digits) {
+  assertthat::assert_that(is.numeric(x))
+  assertthat::assert_that(assertthat::is.number(digits))
+  round(x, digits) %>% sprintf(glue::glue("%.{digits}f"), .)
+}
