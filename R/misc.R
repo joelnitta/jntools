@@ -172,7 +172,7 @@ make_ref_list <- function(rmd_file, raw_bib, final_bib) {
   bib_df_selected <-
     bib_df %>%
     dplyr::select(CATEGORY, BIBTEXKEY, AUTHOR,
-           BOOKTITLE, CHAPTER, EDITOR, EDITION,
+           BOOKTITLE, CHAPTER, EDITOR, EDITION, ADDRESS,
            JOURNAL, PAGES, PUBLISHER, TITLE, VOLUME, YEAR) %>%
     dplyr::filter(BIBTEXKEY %in% citations)
 
