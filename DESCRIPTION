@@ -23,7 +23,8 @@ Imports:
     processx,
     graphics,
     magrittr,
-    bib2df
+    bib2df,
+    phangorn
 Suggests: 
     testthat,
     googledrive
