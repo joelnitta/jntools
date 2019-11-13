@@ -6,7 +6,7 @@
 \usage{
 iqtree(alignment = NULL, wd = getwd(), aln_path = NULL,
   tree_path = NULL, bb = NULL, nt = NULL, alrt = NULL, m = NULL,
-  redo = FALSE, spp = NULL, echo = FALSE, ...)
+  redo = FALSE, spp = NULL, seed = NULL, echo = FALSE, ...)
 }
 \arguments{
 \item{alignment}{DNA alignment to use for phylogenetic analysis. Must be matrix
@@ -32,6 +32,8 @@ to identify the best model for the data.}
 
 \item{redo}{Logical; should the analysis be redone from scratch if output from
 previous runs is present?}
+
+\item{seed}{Optional; Specify a random number seed to reproduce a previous run.}
 
 \item{echo}{Logical; should STDERR be written to the screen?}
 

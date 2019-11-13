@@ -82,6 +82,7 @@ fasttree <- function (seqs, mol_type = "dna", model = "gtr", gamma = FALSE, echo
 #' to identify the best model for the data.
 #' @param redo Logical; should the analysis be redone from scratch if output from
 #' previous runs is present?
+#' @param seed Optional; Specify a random number seed to reproduce a previous run.
 #' @param echo Logical; should STDERR be written to the screen?
 #' @param ... Other arguments not used by this function but used by
 #' drake for tracking.
@@ -100,11 +101,12 @@ fasttree <- function (seqs, mol_type = "dna", model = "gtr", gamma = FALSE, echo
 #' }
 #' @export
 iqtree <- function (alignment = NULL, wd = getwd(),
-                     aln_path = NULL,
-                     tree_path = NULL,
-                     bb = NULL, nt = NULL, alrt = NULL, m = NULL, redo = FALSE,
-                     spp = NULL,
-                     echo = FALSE, ...) {
+                    aln_path = NULL,
+                    tree_path = NULL,
+                    bb = NULL, nt = NULL, alrt = NULL, m = NULL, redo = FALSE,
+                    spp = NULL,
+                    seed = NULL,
+                    echo = FALSE, ...) {
 
   assertthat::assert_that(
     !is.null(alignment) | !is.null(aln_path),
@@ -134,6 +136,9 @@ iqtree <- function (alignment = NULL, wd = getwd(),
 
   if(!is.null(spp))
     assertthat::assert_that(assertthat::is.readable(spp))
+
+  if(!is.null(seed))
+    assertthat::assert_that(assertthat::is.number(seed))
 
   wd <- fs::path_norm(wd)
 
@@ -175,6 +180,8 @@ iqtree <- function (alignment = NULL, wd = getwd(),
     nt,
     if(!is.null(m)) "-m",
     m,
+    if(!is.null(seed)) "-seed",
+    seed,
     if(!is.null(spp)) "-spp",
     fs::path_abs(spp),
     if(isTRUE(redo)) "-redo"
