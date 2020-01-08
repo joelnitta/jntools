@@ -82,6 +82,7 @@ fasttree <- function (seqs, mol_type = "dna", model = "gtr", gamma = FALSE, echo
 #' to identify the best model for the data.
 #' @param redo Logical; should the analysis be redone from scratch if output from
 #' previous runs is present?
+#' @param spp Path to partition file.
 #' @param seed Optional; Specify a random number seed to reproduce a previous run.
 #' @param echo Logical; should STDERR be written to the screen?
 #' @param ... Other arguments not used by this function but used by

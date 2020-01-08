@@ -33,6 +33,8 @@ to identify the best model for the data.}
 \item{redo}{Logical; should the analysis be redone from scratch if output from
 previous runs is present?}
 
+\item{spp}{Path to partition file.}
+
 \item{seed}{Optional; Specify a random number seed to reproduce a previous run.}
 
 \item{echo}{Logical; should STDERR be written to the screen?}
