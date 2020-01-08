@@ -353,3 +353,22 @@ round_t <- function (x, digits) {
   assertthat::assert_that(assertthat::is.number(digits))
   round(x, digits) %>% sprintf(glue::glue("%.{digits}f"), .)
 }
+
+#' Spell out a number in English if it's less than 10
+#'
+#' @param x Number.
+#' @param limit Upper limit of numbers to spell out
+#' (default = 10).
+#'
+#' @return Character vector of length 1.
+#'
+#' @examples
+#' english2(2)
+#' english2(12)
+#' english2(10)
+#' @export
+english2 <- function (x, limit = 10) {
+  assertthat::assert_that(is.numeric(x))
+  if(x < limit) return (english::english(x))
+  x
+}

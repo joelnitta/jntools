@@ -24,7 +24,8 @@ Imports:
     graphics,
     magrittr,
     bib2df,
-    phangorn
+    phangorn,
+    english
 Suggests: 
     testthat,
     googledrive
