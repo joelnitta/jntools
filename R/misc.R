@@ -148,10 +148,12 @@ clean_bib <- function (raw_bib_file,
 #' @param rmd_file Path to Rmd file
 #' @param raw_bib Path to raw bib file
 #' @param final_bib Path to write cleaned, filtered bib file
+#' @param ... Additional named arguments passed to \code{\link{clean_bib}}
+#' that will be used when cleaning the raw bib file.
 #'
 #' @return Nothing
 #' @export
-make_ref_list <- function(rmd_file, raw_bib, final_bib) {
+make_ref_list <- function(rmd_file, raw_bib, final_bib, ...) {
 
   # Process manuscript Rmd and pull out citations
   # (words that begin with '@')
@@ -202,7 +204,7 @@ make_ref_list <- function(rmd_file, raw_bib, final_bib) {
   bib2df::df2bib(bib_df_selected, file = temp_file)
 
   # Do final cleaning with jntools::clean_bib
-  jntools::clean_bib(temp_file) %>%
+  jntools::clean_bib(...) %>%
     readr::write_lines(final_bib)
 
 }

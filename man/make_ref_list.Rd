@@ -4,7 +4,7 @@
 \alias{make_ref_list}
 \title{Produce a filtered, cleaned .bib file for an Rmd document}
 \usage{
-make_ref_list(rmd_file, raw_bib, final_bib)
+make_ref_list(rmd_file, raw_bib, final_bib, ...)
 }
 \arguments{
 \item{rmd_file}{Path to Rmd file}
@@ -12,6 +12,9 @@ make_ref_list(rmd_file, raw_bib, final_bib)
 \item{raw_bib}{Path to raw bib file}
 
 \item{final_bib}{Path to write cleaned, filtered bib file}
+
+\item{...}{Additional named arguments passed to \code{\link{clean_bib}}
+that will be used when cleaning the raw bib file.}
 }
 \value{
 Nothing
