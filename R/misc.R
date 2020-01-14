@@ -160,7 +160,7 @@ make_ref_list <- function(rmd_file, raw_bib, final_bib) {
     stringr::str_split(" |;") %>%
     unlist %>%
     magrittr::extract(., stringr::str_detect(., "@")) %>%
-    stringr::str_remove_all("\\[|\\]|\\)|\\(|\\.$|,") %>%
+    stringr::str_remove_all("\\[|\\]|\\)|\\(|\\.$|,|\\{|\\}") %>%
     unique %>%
     sort %>%
     stringr::str_remove_all("@")
