@@ -204,7 +204,7 @@ make_ref_list <- function(rmd_file, raw_bib, final_bib, ...) {
   bib2df::df2bib(bib_df_selected, file = temp_file)
 
   # Do final cleaning with jntools::clean_bib
-  jntools::clean_bib(...) %>%
+  jntools::clean_bib(raw_bib_file = temp_file, ...) %>%
     readr::write_lines(final_bib)
 
 }
