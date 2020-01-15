@@ -148,12 +148,14 @@ clean_bib <- function (raw_bib_file,
 #' @param rmd_file Path to Rmd file
 #' @param raw_bib Path to raw bib file
 #' @param final_bib Path to write cleaned, filtered bib file
+#' @param exclude Optional character vector of reference IDs to exclude
+#' from the final bibliography.
 #' @param ... Additional named arguments passed to \code{\link{clean_bib}}
 #' that will be used when cleaning the raw bib file.
 #'
 #' @return Nothing
 #' @export
-make_ref_list <- function(rmd_file, raw_bib, final_bib, ...) {
+make_ref_list <- function(rmd_file, raw_bib, final_bib, exclude = NULL, ...) {
 
   # Process manuscript Rmd and pull out citations
   # (words that begin with '@')
@@ -166,6 +168,12 @@ make_ref_list <- function(rmd_file, raw_bib, final_bib, ...) {
     unique %>%
     sort %>%
     stringr::str_remove_all("@")
+
+  # Optionally exclude references from exclude list
+  if(!is.null(exclude)) {
+    assertthat::assert_that(is.character(exclude))
+    citations <- citations[stringr::str_detect(citations, exclude, negate = TRUE)]
+  }
 
   # Read in entire raw bibliography exported from Mendeley as tibble
   bib_df <- bib2df::bib2df(raw_bib)
