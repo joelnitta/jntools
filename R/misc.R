@@ -165,10 +165,11 @@ make_ref_list <- function(rmd_file, raw_bib, final_bib, exclude = NULL, ...) {
     unlist %>%
     magrittr::extract(., stringr::str_detect(., "@")) %>%
     # Remove all extraneous characters to get to just reference ID
-    stringr::str_remove_all("\\[|\\]|\\)|\\(|\\.$|,|\\{|\\}|\\-") %>%
+    stringr::str_remove_all("\\[|\\]|\\)|\\(|\\.$|,|\\{|\\}") %>%
+    stringr::str_remove_all("-@") %>%
+    stringr::str_remove_all("@") %>%
     unique %>%
-    sort %>%
-    stringr::str_remove_all("@")
+    sort
 
   # Optionally exclude references from exclude list
   if(!is.null(exclude)) {
@@ -188,9 +189,14 @@ make_ref_list <- function(rmd_file, raw_bib, final_bib, exclude = NULL, ...) {
     dplyr::filter(BIBTEXKEY %in% citations)
 
   # Fix formatting of "Jr."
+  # This is only working for James E Watkins Jr for now, need to make it work generally
+  # Eddie's name entered in Mendeley as (last, first): Watkins Jr., James E
+  # For bibtex to properly format it, Jr. should be included in bib file as:
+  # Watkins, Jr., James E.
   bib_df_selected <-
     bib_df_selected %>%
-    dplyr::mutate(AUTHOR = purrr::map(AUTHOR, ~stringr::str_replace_all(., "^Watkins Jr.\\}", "\\{Watkins Jr.\\}")))
+    dplyr::mutate(AUTHOR = purrr::map(AUTHOR, ~stringr::str_replace_all(., "^Watkins Jr.\\}", "\\{Watkins Jr.\\}"))) %>%
+    dplyr::mutate(AUTHOR = purrr::map(AUTHOR, ~stringr::str_replace_all(., "\\{Watkins Jr.\\}", "Watkins, Jr.")))
 
   # Fix missing bracket for italics at start of title
   bib_df_selected <-
