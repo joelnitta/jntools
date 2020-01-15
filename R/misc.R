@@ -172,7 +172,7 @@ make_ref_list <- function(rmd_file, raw_bib, final_bib, exclude = NULL, ...) {
   # Optionally exclude references from exclude list
   if(!is.null(exclude)) {
     assertthat::assert_that(is.character(exclude))
-    citations <- citations[stringr::str_detect(citations, exclude, negate = TRUE)]
+    citations <- citations[!citations %in% exclude]
   }
 
   # Read in entire raw bibliography exported from Mendeley as tibble
