@@ -386,6 +386,6 @@ round_t <- function (x, digits) {
 #' @export
 english2 <- function (x, limit = 10) {
   assertthat::assert_that(is.numeric(x))
-  if(x < limit) return (english::english(x))
+  if(x < limit) return (english::words(x))
   x
 }
