@@ -4,8 +4,14 @@
 \alias{download_all_files_in_folder}
 \title{Download all the files in a google drive folder.}
 \usage{
-download_all_files_in_folder(dribble_data, folder, pattern = NULL,
-  negate = FALSE, overwrite = FALSE, ...)
+download_all_files_in_folder(
+  dribble_data,
+  folder,
+  pattern = NULL,
+  negate = FALSE,
+  overwrite = FALSE,
+  ...
+)
 }
 \arguments{
 \item{dribble_data}{Data frame of class \code{dribble}.}

@@ -27,7 +27,7 @@ cat(">seq1",
     "GATC",
     ">seq2",
     "ATTG",
-   file = tempfile("fasta1", fileext = ".fasta"), sep = "\\n")
+   file = tempfile("fasta1", fileext = ".fasta"), sep = "\n")
 
 cat(">seq4",
     "ATCG",
@@ -35,7 +35,7 @@ cat(">seq4",
     "GATC",
     ">seq6",
     "ATTG",
-   file = tempfile("fasta2", fileext = ".fasta"), sep = "\\n")
+   file = tempfile("fasta2", fileext = ".fasta"), sep = "\n")
 
 files <- list.files(tempdir(), pattern = "fasta", full.names = TRUE)
 

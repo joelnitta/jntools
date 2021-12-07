@@ -4,9 +4,13 @@
 \alias{clean_bib}
 \title{Clean up a latex bibliography file}
 \usage{
-clean_bib(raw_bib_file, max_line_length = 1000,
-  strip_fields = c("abstract", "file", "keywords", "url", "doi", "issn",
-  "isbn", "month", "number"), strip_mendeley_header = TRUE)
+clean_bib(
+  raw_bib_file,
+  max_line_length = 1000,
+  strip_fields = c("abstract", "file", "keywords", "url", "doi", "issn", "isbn",
+    "month", "number"),
+  strip_mendeley_header = TRUE
+)
 }
 \arguments{
 \item{raw_bib_file}{Path to raw .bib file; this function is designed in particular

@@ -4,9 +4,22 @@
 \alias{iqtree}
 \title{Run IQ-TREE}
 \usage{
-iqtree(alignment = NULL, wd = getwd(), aln_path = NULL,
-  tree_path = NULL, bb = NULL, nt = NULL, alrt = NULL, m = NULL,
-  redo = FALSE, spp = NULL, seed = NULL, echo = FALSE, ...)
+iqtree(
+  alignment = NULL,
+  wd = getwd(),
+  aln_path = NULL,
+  tree_path = NULL,
+  bb = NULL,
+  nt = NULL,
+  alrt = NULL,
+  m = NULL,
+  redo = FALSE,
+  spp = NULL,
+  seed = NULL,
+  echo = FALSE,
+  other_args = NULL,
+  ...
+)
 }
 \arguments{
 \item{alignment}{DNA alignment to use for phylogenetic analysis. Must be matrix
@@ -39,8 +52,11 @@ previous runs is present?}
 
 \item{echo}{Logical; should STDERR be written to the screen?}
 
-\item{...}{Other arguments not used by this function but used by
-drake for tracking.}
+\item{other_args}{Other arguments to pass to IQ tree; must be entered as a character
+vector with the name and value of each argument separately. For example,
+c("-pers", "0.2", "-nstop", "500").}
+
+\item{...}{Additional arguments; not used by this function.}
 }
 \value{
 Phylogenetic tree (list of class "phylo")

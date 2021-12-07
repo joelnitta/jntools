@@ -4,8 +4,15 @@
 \alias{fasttree}
 \title{Infer a phylogenetic tree using FastTree}
 \usage{
-fasttree(seqs, mol_type = "dna", model = "gtr", gamma = FALSE,
-  echo = FALSE, ...)
+fasttree(
+  seqs,
+  mol_type = "dna",
+  model = "gtr",
+  gamma = FALSE,
+  other_args = NULL,
+  echo = FALSE,
+  ...
+)
 }
 \arguments{
 \item{seqs}{DNA alignment of class DNAbin}
@@ -18,10 +25,12 @@ fasttree(seqs, mol_type = "dna", model = "gtr", gamma = FALSE,
 \item{gamma}{Logical; should branch lengths be rescaled and Gamma20-based
 likelihood calculated?}
 
+\item{other_args}{Other arguments to pass to fasttree; must be entered as a character
+vector with the name and value of each argument separately.}
+
 \item{echo}{Logical; should STDERR and STDOUT be printed to the screen?}
 
-\item{...}{Additional arguments; not used by this function, but meant for
-tracking with \code{\link[drake]{drake_plan}}.}
+\item{...}{Additional arguments; not used by this function.}
 }
 \value{
 List of class "phylo".
