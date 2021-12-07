@@ -9,8 +9,9 @@
 #' @param gamma Logical; should branch lengths be rescaled and Gamma20-based
 #' likelihood calculated?
 #' @param echo Logical; should STDERR and STDOUT be printed to the screen?
-#' @param ... Additional arguments; not used by this function, but meant for
-#' tracking with \code{\link[drake]{drake_plan}}.
+#' @param other_args Other arguments to pass to fasttree; must be entered as a character
+#' vector with the name and value of each argument separately.
+#' @param ... Additional arguments; not used by this function.
 #'
 #' @return List of class "phylo".
 #' @references http://www.microbesonline.org/fasttree/
@@ -22,7 +23,7 @@
 #' fasttree(woodmouse)
 #' }
 #' @export
-fasttree <- function (seqs, mol_type = "dna", model = "gtr", gamma = FALSE, echo = FALSE, ...) {
+fasttree <- function (seqs, mol_type = "dna", model = "gtr", gamma = FALSE, other_args = NULL, echo = FALSE, ...) {
 
   # Make sure input types are correct
   assertthat::assert_that(inherits(seqs, "DNAbin"),
@@ -51,7 +52,8 @@ fasttree <- function (seqs, mol_type = "dna", model = "gtr", gamma = FALSE, echo
   args <- c(mol_type,
             model,
             gamma,
-            alignment_file)
+            alignment_file,
+            other_args)
 
   # Run command
   results <- processx::run(
@@ -85,8 +87,10 @@ fasttree <- function (seqs, mol_type = "dna", model = "gtr", gamma = FALSE, echo
 #' @param spp Path to partition file.
 #' @param seed Optional; Specify a random number seed to reproduce a previous run.
 #' @param echo Logical; should STDERR be written to the screen?
-#' @param ... Other arguments not used by this function but used by
-#' drake for tracking.
+#' @param other_args Other arguments to pass to IQ tree; must be entered as a character
+#' vector with the name and value of each argument separately. For example,
+#' c("-pers", "0.2", "-nstop", "500").
+#' @param ... Additional arguments; not used by this function.
 #'
 #' @return Phylogenetic tree (list of class "phylo")
 #'
@@ -101,13 +105,14 @@ fasttree <- function (seqs, mol_type = "dna", model = "gtr", gamma = FALSE, echo
 #' iqtree(tempdir(), woodmouse, m = "GTR+I+G", nt = "AUTO", echo = TRUE, redo = TRUE)
 #' }
 #' @export
-iqtree <- function (alignment = NULL, wd = getwd(),
+iqtree <- function(alignment = NULL, wd = getwd(),
                     aln_path = NULL,
                     tree_path = NULL,
                     bb = NULL, nt = NULL, alrt = NULL, m = NULL, redo = FALSE,
                     spp = NULL,
                     seed = NULL,
-                    echo = FALSE, ...) {
+                    echo = FALSE,
+                   other_args = NULL, ...) {
 
   assertthat::assert_that(
     !is.null(alignment) | !is.null(aln_path),
@@ -123,22 +128,22 @@ iqtree <- function (alignment = NULL, wd = getwd(),
 
   assertthat::assert_that(is.logical(redo))
 
-  if(!is.null(bb))
+  if (!is.null(bb))
     assertthat::assert_that(assertthat::is.number(bb))
 
-  if(!is.null(alrt))
+  if (!is.null(alrt))
     assertthat::assert_that(assertthat::is.number(alrt))
 
-  if(!is.null(nt))
+  if (!is.null(nt))
     assertthat::assert_that(assertthat::is.number(nt) | assertthat::is.string(nt))
 
-  if(!is.null(m))
+  if (!is.null(m))
     assertthat::assert_that(assertthat::is.string(m))
 
-  if(!is.null(spp))
+  if (!is.null(spp))
     assertthat::assert_that(assertthat::is.readable(spp))
 
-  if(!is.null(seed))
+  if (!is.null(seed))
     assertthat::assert_that(assertthat::is.number(seed))
 
   wd <- fs::path_norm(wd)
@@ -173,19 +178,20 @@ iqtree <- function (alignment = NULL, wd = getwd(),
   # Set up arguments
   iqtree_arguments <- c(
     "-s", fs::path_abs(aln_path),
-    if(!is.null(bb)) "-bb",
+    if (!is.null(bb)) "-bb",
     bb,
-    if(!is.null(alrt)) "-alrt",
+    if (!is.null(alrt)) "-alrt",
     alrt,
-    if(!is.null(nt)) "-nt",
+    if (!is.null(nt)) "-nt",
     nt,
-    if(!is.null(m)) "-m",
+    if (!is.null(m)) "-m",
     m,
-    if(!is.null(seed)) "-seed",
+    if (!is.null(seed)) "-seed",
     seed,
-    if(!is.null(spp)) "-spp",
+    if (!is.null(spp)) "-spp",
     fs::path_abs(spp),
-    if(isTRUE(redo)) "-redo"
+    if (isTRUE(redo)) "-redo",
+    other_args
   )
 
   # Run iqtree command
@@ -195,7 +201,7 @@ iqtree <- function (alignment = NULL, wd = getwd(),
 
   # Read in resulting consensus tree.
   # Use default name of .phy file if tree_path not provided
-  if(is.null(tree_path)) {
+  if (is.null(tree_path)) {
     tree_path <- fs::path(wd, deparse(substitute(alignment))) %>%
       fs::path_ext_set(".phy.contree")
   }
