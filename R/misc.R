@@ -328,7 +328,7 @@ download_all_files_in_folder <- function (dribble_data, folder, pattern = NULL,
 #' all_duplicated(data.frame(c("a","a","b", "d"), c("a","a","c", "e")))
 #' @author Joel H Nitta, \email{joelnitta@@gmail.com}
 #' @export
-all_duplicated <- function (x) {
+all_duplicated <- function(x) {
   duplicated(x, fromLast = TRUE) | duplicated(x, fromLast = FALSE)
 }
 
@@ -348,10 +348,10 @@ all_duplicated <- function (x) {
 paste3 <- function(..., sep=" ") {
   L <- list(...)
   L <- lapply(L,function(x) {x[is.na(x)] <- ""; x})
-  ret <-gsub(paste0("(^",sep,"|",sep,"$)"),"",
-             gsub(paste0(sep,sep),sep,
-                  do.call(paste,c(L,list(sep=sep)))))
-  is.na(ret) <- ret==""
+  ret <- gsub(paste0("(^",sep,"|",sep,"$)"),"",
+             gsub(paste0(sep, sep), sep,
+                  do.call(paste, c(L, list(sep = sep)))))
+  is.na(ret) <- ret == ""
   ret
 }
 
@@ -365,7 +365,7 @@ paste3 <- function(..., sep=" ") {
 #' @examples
 #' round_t(c(2.12, 2.3), 4)
 #' @export
-round_t <- function (x, digits) {
+round_t <- function(x, digits) {
   assertthat::assert_that(is.numeric(x))
   assertthat::assert_that(assertthat::is.number(digits))
   round(x, digits) %>% sprintf(glue::glue("%.{digits}f"), .)
@@ -384,8 +384,8 @@ round_t <- function (x, digits) {
 #' english2(12)
 #' english2(10)
 #' @export
-english2 <- function (x, limit = 10) {
+english2 <- function(x, limit = 10) {
   assertthat::assert_that(is.numeric(x))
-  if(x < limit) return (english::words(x))
-  x
+  if (x < limit) return (english::words(x))
+  as.character(x)
 }
