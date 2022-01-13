@@ -197,7 +197,8 @@ iqtree <- function(alignment = NULL, wd = getwd(),
   # Run iqtree command
   processx::run(
     "iqtree",
-    iqtree_arguments, wd = wd, echo = echo)
+    iqtree_arguments, wd = wd, echo = echo,
+    env = c("current", OMP_NUM_THREADS = "1"))
 
   # Read in resulting consensus tree.
   # Use default name of .phy file if tree_path not provided
