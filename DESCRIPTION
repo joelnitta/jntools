@@ -13,7 +13,6 @@ Imports:
     purrr,
     dplyr,
     ggplot2,
-    ape,
     assertthat,
     grDevices,
     fs,
@@ -27,5 +26,6 @@ Imports:
     phangorn,
     english
 Suggests: 
+    ape,
     testthat,
     googledrive
